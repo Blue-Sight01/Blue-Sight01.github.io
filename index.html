@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth preloading">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muhammad Ihsan Rijadin | Portfolio</title>
+  <meta name="description" content="Portfolio Muhammad Ihsan Rijadin — Computer Engineering Student. Software & Hardware Enthusiast." />
+
+  <!-- TEMA: skrip ini jalan paling awal agar tidak "berkedip". Default = dark.
+       UBAH 'dark' menjadi 'light' pada baris di bawah jika ingin default terang. -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme') || 'dark';
+        if (saved === 'light') document.documentElement.classList.add('light');
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Font: Space Grotesk (headline), Space Mono (monospace) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Ikon: FontAwesome + Devicon (berwarna) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css" />
+
+  <!-- AOS (Animate On Scroll) -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['"Space Mono"', 'ui-monospace', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- ====================================================================
+       CSS TAMBAHAN
+       UBAH WARNA DARK / LIGHT DI SINI (variabel :root dan html.light)
+       ==================================================================== -->
+  <style>
+    /* ---------- TEMA DARK (default) ---------- */
+    :root {
+      --bg: #0a0a0a;
+      --ink: #e8f3e1;
+      --mint: #9ff5dc;          /* aksen untuk blok/isian/border */
+      --mint-text: #9ff5dc;     /* aksen untuk teks & ikon */
+      --on-mint: #0a0a0a;       /* warna teks di atas blok mint */
+      --amber: #e3c766;
+      --muted: #8d9791;
+      --line: rgba(232, 243, 225, 0.2);
+      --dot: rgba(232, 243, 225, 0.16);
+      --panel: #0f2a24;
+      --nav-bg: rgba(10, 10, 10, 0.9);
+    }
+    /* ---------- TEMA LIGHT ---------- */
+    html.light {
+      --bg: #f1f4ec;
+      --ink: #0a0a0a;
+      --mint: #2fd1ab;
+      --mint-text: #0a7a62;
+      --on-mint: #0a0a0a;
+      --amber: #9a6b00;
+      --muted: #4b5a53;
+      --line: rgba(10, 10, 10, 0.22);
+      --dot: rgba(10, 10, 10, 0.18);
+      --panel: #d6eee5;
+      --nav-bg: rgba(241, 244, 236, 0.92);
+    }
+
+    html { scroll-behavior: smooth; }
+    /* +2px: saat lompat lewat menu, judul belum "menempel" sehingga tampil transparan dulu */
+    section[id] { scroll-margin-top: calc(var(--nav-h, 3.6rem) + .5rem + 2px); }
+
+    /* Semua elemen WAJIB bersudut tajam (tanpa rounded) */
+    *, *::before, *::after { border-radius: 0 !important; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+      /* Pola Dotted Grid (titik-titik) */
+      background-image: radial-gradient(var(--dot) 1px, transparent 1.2px);
+      background-size: 26px 26px;
+      background-attachment: fixed;
+      transition: background-color .3s ease, color .3s ease;
+    }
+    ::selection { background: var(--mint); color: #0a0a0a; }
+
+    .mono { font-family: 'Space Mono', ui-monospace, monospace; }
+    .display { font-family: 'Space Grotesk', ui-sans-serif, sans-serif; letter-spacing: -0.03em; }
+    .mint { color: var(--mint-text); }
+    .muted { color: var(--muted); }
+
+    /* ---------- JUDUL SECTION YANG "NEMPEL" DI ATAS SAAT SCROLL ---------- */
+    .section-head {
+      /* Menempel di bawah navbar (jarak .5rem). Pembungkusnya transparan & tidak menangkap klik;
+         hanya judulnya (.section-title) yang interaktif. */
+      position: sticky; top: calc(var(--nav-h, 3.6rem) + .5rem); z-index: 30;
+      margin-top: 1.25rem; pointer-events: none;
+    }
+    .section-head-inner {
+      max-width: 72rem; margin: 0 auto; padding: .35rem 1.25rem;
+      display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 1rem; row-gap: .1rem;
+    }
+    /* Judul: warna aksen (mint) dan DIAM. Glitch hanya saat di-hover (lihat data-glitch-hover). */
+    .section-title {
+      box-sizing: border-box; pointer-events: auto;
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;
+      margin: 0 0 0 -.8rem; padding: .3rem .8rem;   /* padding tetap ada (teks tetap sejajar konten) supaya tidak melompat saat kotak muncul */
+      font-size: clamp(1.6rem, 4.5vw, 2.75rem); color: var(--mint-text); background-color: transparent;
+      transition: background-color .25s ease, color .25s ease;
+    }
+    .section-title[data-glitch-hover] { cursor: default; }
+    /* Saat judul menempel (stuck): kotak solid mint, teks gelap pekat. Class is-stuck dipasang oleh JS (lihat updateStuck). */
+    .section-head.is-stuck .section-title { background-color: var(--mint); color: #0a0a0a; }
+
+    /* ---------- Tombol brutalist ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+      font-family: 'Space Mono', monospace; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em;
+      padding: .85rem 1.4rem; border: 1px solid var(--mint); cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+    }
+    .btn-solid   { background: var(--mint); color: var(--on-mint); }
+    .btn-outline { background: transparent; color: var(--mint-text); }
+    .btn:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--mint); }
+    .btn-solid:hover   { background: var(--bg); color: var(--mint-text); }
+    .btn-outline:hover { background: var(--mint); color: var(--on-mint); box-shadow: 5px 5px 0 var(--ink); }
+
+    /* ---------- Card brutalist ---------- */
+    .card {
+      background: var(--bg); border: 1px solid var(--line);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .3s ease;
+    }
+    .card:hover { transform: translate(-4px, -4px); box-shadow: 6px 6px 0 var(--mint); border-color: var(--mint); }
+
+    /* Tag teknologi: Brutalist Outline-to-Solid (tanpa glitch).
+       Default : kotak tajam, border tipis mint, background transparan, teks mono mint.
+       Hover   : terisi penuh mint, teks gelap pekat (gray-900), transisi warna 300ms (setara transition-colors duration-300). */
+    .tag {
+      font-family: 'Space Mono', monospace; font-size: .72rem; padding: .2rem .55rem; text-transform: uppercase;
+      background-color: transparent; border: 1px solid var(--mint); color: var(--mint-text); cursor: default;
+      transition-property: color, background-color, border-color; transition-duration: .3s; transition-timing-function: ease;
+    }
+    .tag:hover { background-color: var(--mint); color: #111827; }
+    .badge {
+      font-family: 'Space Mono', monospace; font-size: .72rem; padding: .2rem .6rem;
+      background: var(--mint); color: #0a0a0a; text-transform: uppercase; font-weight: 700;
+    }
+
+    /* ---------- NOTES: scroller horizontal (swipe kanan-kiri) ----------
+       flex + overflow-x + scroll-snap mandatory, scrollbar disembunyikan.
+       Padding/margin negatif memberi ruang agar bayangan hover card tidak terpotong. */
+    .notes-scroller {
+      display: flex; gap: 1.5rem; overflow-x: auto; overflow-y: hidden;
+      scroll-snap-type: x mandatory; scroll-padding-inline: 1rem;
+      scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch;
+      padding: .75rem 1rem 1.25rem; margin: -.75rem -1rem -1.25rem;
+    }
+    .notes-scroller::-webkit-scrollbar { display: none; }
+    .note-item { flex: 0 0 auto; width: min(86%, 24rem); scroll-snap-align: start; display: flex; }
+
+    /* ---------- Filter proyek ---------- */
+    .filter-btn {
+      font-family: 'Space Mono', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em;
+      padding: .6rem 1.1rem; border: 1px solid var(--line); color: var(--ink); background: transparent;
+      cursor: pointer; transition: all .15s ease;
+    }
+    .filter-btn:hover { border-color: var(--mint); color: var(--mint-text); }
+    .filter-btn.active { background: var(--mint); color: #0a0a0a; border-color: var(--mint); font-weight: 700; }
+
+    /* ---------- Navbar ---------- */
+    .nav-link {
+      font-family: 'Space Mono', monospace; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em;
+      color: var(--mint-text); padding: .25rem .1rem; border-bottom: 2px solid transparent; transition: border-color .15s ease;
+    }
+    .nav-link:hover, .nav-link.active { border-bottom-color: var(--mint); }
+
+    /* ---------- Hero ---------- */
+    .caret::after {
+      content: ''; display: inline-block; width: .55ch; height: 1em; margin-left: 4px;
+      background: var(--mint-text); vertical-align: text-bottom; animation: blink 1s steps(2, start) infinite;
+    }
+    @keyframes blink { to { visibility: hidden; } }
+    @keyframes pulseDot { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+    .status-dot { width: .6rem; height: .6rem; background: #22c55e; display: inline-block; animation: pulseDot 1.6s ease-in-out infinite; }
+
+    .photo-frame { border: 2px solid var(--mint); box-shadow: 10px 10px 0 var(--mint); background: var(--panel); }
+
+    /* ---------- Timeline ---------- */
+    .tl-line { border-left: 1px solid var(--line); }
+    .tl-node { position: absolute; top: 1.6rem; width: 13px; height: 13px; background: var(--mint); border: 2px solid var(--bg); }
+
+    /* ---------- MARQUEE 2 BARIS (Skills) ---------- */
+    /* Tanpa mask/fade di tepi, supaya semua ikon terlihat jelas. Kecepatan diatur lewat JS (px per detik). */
+    .marquee { overflow: hidden; width: 100%; }
+    .marquee-track { display: flex; width: max-content; animation: marquee 120s linear infinite; }
+    .marquee-track.reverse { animation-direction: reverse; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee-group { display: flex; flex-shrink: 0; }
+    .skill-item { display: flex; align-items: center; gap: 1rem; padding: 0 2.25rem; white-space: nowrap; }
+    .skill-item i { font-size: 3.25rem; line-height: 1; width: 3.5rem; text-align: center; }
+    .skill-item span { font-family: 'Space Mono', monospace; font-size: .8rem; text-transform: uppercase; color: var(--muted); }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ---------- Animasi filter ---------- */
+    @keyframes popIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .pop-in { animation: popIn .4s ease backwards; }   /* backwards (bukan both) agar efek hover card tidak tertimpa setelah animasi selesai */
+
+    /* ---------- CONTACT (sederhana, gaya terminal) ---------- */
+    .term-head { display: flex; justify-content: space-between; align-items: center; font-family: 'Space Mono', monospace; font-size: .85rem; text-transform: uppercase; }
+    .term-box {
+      display: flex; align-items: center; gap: .75rem; margin-top: .75rem; padding: .9rem 1rem;
+      border: 1px solid var(--amber); background: var(--bg); transition: box-shadow .15s ease;
+    }
+    .term-box:focus-within { box-shadow: 4px 4px 0 var(--amber); }
+    .term-box input {
+      flex: 1; min-width: 0; background: transparent; border: 0; outline: none;
+      color: var(--ink); font-family: 'Space Mono', monospace; font-size: .9rem;
+    }
+    .term-box input::placeholder { color: var(--muted); }
+    .term-box button {
+      font-family: 'Space Mono', monospace; font-size: .85rem; color: var(--ink); background: transparent; border: 0; cursor: pointer;
+    }
+    .term-box button:hover { color: var(--amber); }
+
+    .col-title { font-family: 'Space Grotesk', sans-serif; font-weight: 500; text-transform: uppercase; color: var(--ink); margin-bottom: 1.1rem; }
+    .link-list { display: flex; flex-direction: column; align-items: flex-start; gap: .2rem; }
+    .link-list a, .link-list span {
+      font-family: 'Space Mono', monospace; font-size: .9rem; font-weight: 700; text-transform: uppercase;
+      color: var(--mint-text); padding: .25rem .5rem; margin-left: -.5rem;
+    }
+    .link-list a { transition: background .15s ease, color .15s ease; }
+    .link-list a::after { content: ' ↗'; opacity: 0; transition: opacity .15s ease; }
+    .link-list a:hover { background: var(--mint); color: var(--on-mint); }
+    .link-list a:hover::after { opacity: 1; }
+
+    /* Banner glitch di bawah contact */
+    .glitch-banner {
+      background-color: var(--mint);
+      background-image: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0, rgba(0,0,0,.16) 1px, transparent 1px, transparent 3px);
+      color: #0a0a0a; display: grid; place-items: center; min-height: 11rem; overflow: hidden; margin-top: 2rem;
+    }
+    .glitch-banner span {
+      font-family: 'Space Mono', monospace; font-weight: 700; white-space: nowrap; letter-spacing: -0.02em;
+      font-size: clamp(1.5rem, 7vw, 5.5rem);
+    }
+
+    /* ====================================================================
+       DOCK (tab vertikal di kanan). Isi panel: tema, WhatsApp, Instagram, GitHub.
+       Buka/tutup memakai TRANSISI: tab meluncur keluar ke kanan, panel meluncur masuk + fade.
+       UBAH KECEPATAN: ganti .5s / .35s pada transition di bawah.
+       ==================================================================== */
+    .dock { position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 60; }
+    .dock-tab {
+      display: block; writing-mode: vertical-rl; background: var(--mint); color: #0a0a0a; padding: 1rem .5rem; border: 0; cursor: pointer;
+      font-family: 'Space Mono', monospace; font-size: .8rem; font-weight: 700; letter-spacing: .12em;
+      transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .3s ease, padding .2s ease;
+    }
+    .dock-tab:hover { padding-right: .9rem; }
+    .dock.open .dock-tab { transform: translateX(110%); opacity: 0; pointer-events: none; }
+
+    /* pointer-events: none agar pembungkus (yang ukurannya sama dengan panel) tidak menutupi tab DOCK saat panel tertutup */
+    .dock-panel-wrap { position: absolute; right: 0; top: 50%; transform: translateY(-50%); pointer-events: none; }
+    .dock-panel {
+      display: flex; flex-direction: column; gap: .5rem; padding: .5rem; background: var(--mint);
+      /* kondisi tertutup: bergeser ke kanan, transparan, tidak bisa diklik / difokuskan */
+      transform: translateX(105%); opacity: 0; visibility: hidden; pointer-events: none;
+      transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .35s ease, visibility 0s linear .5s;
+    }
+    .dock.open .dock-panel {
+      transform: translateX(0); opacity: 1; visibility: visible; pointer-events: auto;
+      transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .35s ease, visibility 0s linear 0s;
+    }
+    .dock-btn {
+      width: 2.6rem; height: 2.6rem; display: grid; place-items: center; cursor: pointer;
+      background: var(--bg); color: var(--mint-text); border: 1px solid var(--line); font-size: 1rem;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .dock-btn:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 #0a0a0a; }
+    .dock-close { background: transparent; color: #0a0a0a; border: 0; font-size: 1.25rem; }
+    .dock-close:hover { box-shadow: none; transform: none; }
+    .icon-moon { display: none; }
+    html.light .icon-sun { display: none; }
+    html.light .icon-moon { display: inline; }
+
+    /* ====================================================================
+       PRELOADER — CINEMATIC SPLIT
+       Fase 1 (loading): teks INITIALIZING di tengah layar; logo + menu "kembaran" di tengah atas, glitch huruf Jepang.
+       Fase 2 (split)  : logo meluncur ke kiri atas, menu ke kanan atas (posisi navbar asli); overlay memudar.
+       UBAH KECEPATAN GESER: ganti "1s" pada transition .pre-item (dan SPLIT_MS di script).
+       ==================================================================== */
+    html.preloading, html.preloading body { overflow: hidden; }   /* scroll dikunci selama preloader */
+    /* Navbar asli disembunyikan selama preloader; "kembarannya" yang meluncur ke posisi ini */
+    html.preloading #logo,
+    html.preloading header nav ul,
+    html.preloading #menu-btn { visibility: hidden; animation: preShow .01s 7s forwards; }
+    @keyframes preShow { to { visibility: visible; } }
+
+    .preloader {
+      position: fixed; inset: 0; z-index: 100; overflow: hidden;   /* di atas navbar (z-50) & dock (z-60) */
+      animation: preFailsafe .01s 7s forwards;                     /* pengaman: hilang sendiri jika JS gagal */
+    }
+    .pre-bg {
+      position: absolute; inset: 0; background-color: #0a0a0a;
+      background-image: radial-gradient(rgba(232, 243, 225, 0.16) 1px, transparent 1.2px);
+      background-size: 26px 26px; opacity: 1;
+      transition: opacity 1s ease-in-out;
+    }
+    .pre-bg.fade { opacity: 0; }   /* overlay hitam memudar */
+
+    /* Teks INITIALIZING: tepat di tengah layar (absolute center) */
+    .pre-text {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0; white-space: nowrap;
+      font-family: 'Space Mono', monospace; font-size: clamp(.9rem, 2.4vw, 1.15rem); letter-spacing: .1em; color: #9ff5dc;
+      animation: preBlink 1s steps(1, end) infinite;
+    }
+    .pre-text.gone { animation: none; opacity: 0; visibility: hidden; }
+
+    /* box-sizing dibuat eksplisit (tidak bergantung pada Tailwind) agar lebar yang dikunci saat glitch = lebar asli */
+    .pre-cluster, .pre-cluster *, .pre-cluster *::before, .pre-cluster *::after { box-sizing: border-box; }
+
+    /* Kumpulan navbar: tengah atas (sedikit di atas teks INITIALIZING), rata tengah horizontal */
+    .pre-cluster {
+      position: absolute; left: 50%; top: calc(50% - 5.5rem); transform: translateX(-50%);
+      display: flex; align-items: center; gap: 3rem; white-space: nowrap;
+    }
+    .pre-cluster .pre-item {
+      display: inline-block; color: #9ff5dc; will-change: transform;
+      transition: transform 1s ease-in-out, top 1s ease-in-out, left 1s ease-in-out, right 1s ease-in-out, color 1s ease-in-out;
+    }
+    .pre-cluster.split .pre-item { color: var(--mint-text); }   /* warna ikut tema saat meluncur */
+    .pre-logo { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; letter-spacing: .025em; }
+    .pre-menu { display: none; align-items: center; gap: 2rem; margin: 0; padding: 0; list-style: none; }
+    .pre-menu-btn-wrap { display: block; }
+    .pre-menu-btn {
+      font-family: 'Space Mono', monospace; font-size: .875rem; line-height: 1.25rem;
+      padding: .5rem .75rem; border: 1px solid currentColor;
+    }
+    @media (min-width: 768px) {
+      .pre-menu { display: flex; }
+      .pre-menu-btn-wrap { display: none; }
+    }
+
+    @keyframes preBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: .1; } }
+    @keyframes preFailsafe { to { visibility: hidden; pointer-events: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .marquee-track, .caret::after, .status-dot, .pop-in, .pre-text { animation: none; }
+      .marquee { overflow-x: auto; }
+      .pre-cluster .pre-item, .dock-tab, .dock-panel { transition: none; }
+      .pre-bg { transition-duration: .3s; }
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <!-- ====================================================================
+       PRELOADER — CINEMATIC SPLIT
+       UBAH TEKS PRELOADER DI SINI (durasi diatur di script di bawah: PRELOADER_MS & SPLIT_MS)
+       Menu di "kembaran" ini HARUS sama dengan menu di navbar asli (urutan & teksnya).
+       ==================================================================== -->
+  <div id="preloader" class="preloader" role="status" aria-live="polite">
+    <div class="pre-bg"></div>
+    <p id="pre-text" class="pre-text">INITIALIZING_SYSTEM...</p>
+
+    <div id="pre-cluster" class="pre-cluster" aria-hidden="true">
+      <span id="pre-logo" class="pre-item pre-logo">&lt; ihsan /&gt;</span>
+      <ul class="pre-menu">
+        <li><span class="pre-item nav-link" data-i="0">Home</span></li>
+        <li><span class="pre-item nav-link" data-i="1">Tentang Saya</span></li>
+        <li><span class="pre-item nav-link" data-i="2">Projects</span></li>
+        <li><span class="pre-item nav-link" data-i="3">Let's Link</span></li>
+      </ul>
+      <div class="pre-menu-btn-wrap"><span class="pre-item pre-menu-btn">MENU</span></div>
+    </div>
+  </div>
+
+  <!-- Script ini sengaja dipisah & dijalankan paling awal: berisi karakter glitch Jepang,
+       fungsi glitch (dipakai juga oleh script utama di bawah), dan logika preloader. -->
+  <script>
+    // Selalu mulai dari paling atas agar animasi preloader konsisten
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0); } catch (e) {}
+
+    // =====================================================================
+    // KARAKTER ACAK GLITCH — HANYA Katakana & Hiragana. UBAH DI SINI.
+    // CHARS_NARROW (katakana half-width) dipakai untuk teks vertikal (tab DOCK) agar panjangnya tidak melonjak.
+    // =====================================================================
+    const CHARS = Array.from('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄあいうえおかきくけこさしすせそたちつてとアイウエオカキクケコ');
+    const CHARS_NARROW = Array.from('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄ');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const randJP = (pool) => { const p = pool || CHARS; return p[Math.floor(Math.random() * p.length)]; };
+
+    // Efek "scramble": huruf acak Jepang lalu "ter-decode" menjadi teks asli (sekali jalan)
+    function scramble(el, target) {
+      if (reduceMotion) { el.textContent = target; return; }
+      if (el._busy) return;
+      el._busy = true;
+
+      // Kunci lebar elemen selama efek berjalan supaya layout tidak bergeser
+      // (huruf Jepang lebih lebar daripada huruf latin)
+      const rect = el.getBoundingClientRect();
+      const wasInline = getComputedStyle(el).display === 'inline';
+      if (wasInline) el.style.display = 'inline-block';
+      el.style.width = rect.width + 'px';
+      if (!wasInline) el.style.height = rect.height + 'px';   // tinggi dikunci juga: font cadangan huruf Jepang lebih tinggi
+      el.style.whiteSpace = 'nowrap';
+
+      const total = 20;      // jumlah frame (makin kecil = makin cepat)
+      let frame = 0;
+      const timer = setInterval(() => {
+        const revealed = Math.floor((frame / total) * target.length);
+        let out = '';
+        for (let i = 0; i < target.length; i++) {
+          out += (i < revealed || target[i] === ' ') ? target[i] : randJP();
+        }
+        el.textContent = out;
+        frame++;
+        if (frame > total) {
+          clearInterval(timer);
+          el.textContent = target;
+          el.style.width = '';
+          el.style.height = '';
+          el.style.display = '';
+          el.style.whiteSpace = '';
+          el._busy = false;
+        }
+      }, 40);
+    }
+
+    // =====================================================================
+    // GLITCH SAAT HOVER (judul section & tombol DOCK)
+    // Default: DIAM. Glitch berjalan terus selama kursor di atas elemen, dan
+    // teks langsung kembali ke aslinya begitu kursor menjauh.
+    // =====================================================================
+    const HOLD_MIN_MS = 350;   // glitch minimal tampil sekian ms, supaya terlihat walau kursor lewat cepat
+
+    function lockBox(el) {
+      const cs = getComputedStyle(el);
+      const r = el.getBoundingClientRect();
+      const vertical = cs.writingMode.indexOf('vertical') === 0;
+      el._prev = { d: el.style.display, w: el.style.width, h: el.style.height, ws: el.style.whiteSpace, ox: el.style.overflowX, oy: el.style.overflowY };
+      if (cs.display === 'inline') el.style.display = 'inline-block';
+      el.style.width = r.width + 'px';
+      el.style.height = r.height + 'px';   // tinggi dikunci: bar judul section tidak naik-turun saat glitch
+      el.style.whiteSpace = 'nowrap';
+      el.style.overflowX = 'clip';
+      if (vertical) el.style.overflowY = 'clip';
+      return vertical;
+    }
+    function unlockBox(el) {
+      const p = el._prev;
+      if (!p) return;
+      el.style.display = p.d; el.style.width = p.w; el.style.height = p.h;
+      el.style.whiteSpace = p.ws; el.style.overflowX = p.ox; el.style.overflowY = p.oy;
+      el._prev = null;
+    }
+    function startGlitch(el, text) {
+      if (reduceMotion || el._busy) return;
+      if (el._hold) { clearTimeout(el._hold.stopT); return; }   // kursor kembali sebelum glitch berhenti
+      const vertical = lockBox(el);
+      const pool = vertical ? CHARS_NARROW : CHARS;
+      const tick = () => {
+        let out = '';
+        for (const ch of text) out += ch === ' ' ? ' ' : (Math.random() < 0.8 ? randJP(pool) : ch);
+        el.textContent = out;
+      };
+      el._hold = { t0: performance.now(), stopT: 0, timer: setInterval(tick, 60) };
+      tick();
+    }
+    function stopGlitch(el, text) {
+      const h = el._hold;
+      if (!h) return;
+      clearTimeout(h.stopT);
+      const wait = Math.max(0, HOLD_MIN_MS - (performance.now() - h.t0));
+      h.stopT = setTimeout(() => {
+        clearInterval(h.timer);
+        el.textContent = text;
+        unlockBox(el);
+        el._hold = null;
+      }, wait);
+    }
+
+    // =====================================================================
+    // PRELOADER — UBAH DURASI DI SINI (milidetik)
+    // PRELOADER_MS : lama fase loading (logo + menu nge-glitch di tengah atas)
+    // SPLIT_MS     : lama animasi membelah/meluncur (samakan dengan "1s" di CSS .pre-item)
+    // =====================================================================
+    const PRELOADER_MS = 2000;
+    const SPLIT_MS = 1000;
+    (function runPreloader() {
+      const pre = document.getElementById('preloader');
+      const bg = pre.querySelector('.pre-bg');
+      const preText = document.getElementById('pre-text');
+      const cluster = document.getElementById('pre-cluster');
+      const desktop = window.matchMedia('(min-width: 768px)').matches;   // sama dengan breakpoint md Tailwind
+
+      // Hanya elemen yang tampil di ukuran layar saat ini (desktop: logo + 4 menu, mobile: logo + tombol MENU)
+      const items = Array.from(cluster.querySelectorAll('.pre-item')).filter((el) => {
+        const isBtn = el.classList.contains('pre-menu-btn');
+        return desktop ? !isBtn : (isBtn || el.id === 'pre-logo');
+      });
+      items.forEach((el) => { el._final = el.textContent; });
+
+      let loop = null;
+      let splitStarted = false;
+
+      function jumble(text) {
+        let out = '';
+        for (const ch of text) out += ch === ' ' ? ' ' : (Math.random() < 0.85 ? randJP() : ch);
+        return out;
+      }
+
+      // Fase 1: logo & menu nge-glitch huruf Jepang non-stop (lebar dikunci supaya posisi tidak bergeser)
+      function startGlitchLoop() {
+        items.forEach((el) => {
+          const r = el.getBoundingClientRect();
+          el.style.width = r.width + 'px';
+          el.style.height = r.height + 'px';   // tinggi dikunci agar posisi vertikal tidak goyang & tujuan glide akurat
+          el.style.whiteSpace = 'nowrap';
+          el.style.overflowX = 'clip';
+        });
+        loop = setInterval(() => items.forEach((el) => { el.textContent = jumble(el._final); }), 70);
+      }
+      if (!reduceMotion) {
+        const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+        // Tunggu font siap (maks 600 ms) agar lebar yang dikunci sudah akurat
+        Promise.race([fontsReady, new Promise((r) => setTimeout(r, 600))]).then(() => { if (!splitStarted) startGlitchLoop(); });
+      }
+
+      // Elemen navbar asli yang menjadi tujuan setiap item
+      function targetFor(el) {
+        if (el.id === 'pre-logo') return document.getElementById('logo');
+        if (el.classList.contains('pre-menu-btn')) return document.getElementById('menu-btn');
+        return document.querySelectorAll('header nav ul .nav-link')[Number(el.dataset.i)] || null;
+      }
+
+      // Fase 2: split — logo ke kiri atas, menu ke kanan atas, overlay memudar
+      function startSplit() {
+        splitStarted = true;
+        clearInterval(loop);
+        window.__preloaderDone = true;
+        pre.style.pointerEvents = 'none';
+        preText.classList.add('gone');                        // teks INITIALIZING hilang
+        document.dispatchEvent(new Event('preloader:done'));  // AOS & glitch hero mulai
+
+        if (reduceMotion) {                                   // tanpa animasi geser
+          bg.classList.add('fade');
+          setTimeout(finish, 350);
+          return;
+        }
+
+        // 1) ukur posisi sekarang (tengah atas) dan posisi tujuan (navbar asli)
+        const moves = [];
+        items.forEach((el) => {
+          const t = targetFor(el);
+          if (!t) return;
+          const c = el.getBoundingClientRect();
+          const r = t.getBoundingClientRect();
+          moves.push({ el: el, dx: r.left - c.left, dy: (r.top + r.height / 2) - (c.top + c.height / 2) });
+        });
+
+        // 2) teks "ter-decode" kembali ke aslinya selama bergeser
+        items.forEach((el) => scramble(el, el._final));
+
+        // 3) transisi CSS: elemen meluncur (transform 1s ease-in-out), overlay memudar, warna ikut tema
+        cluster.classList.add('split');
+        bg.classList.add('fade');
+        requestAnimationFrame(() => {
+          moves.forEach((m) => { m.el.style.transform = 'translate(' + m.dx + 'px, ' + m.dy + 'px)'; });
+        });
+
+        setTimeout(finish, SPLIT_MS + 80);
+      }
+
+      // Selesai: navbar asli muncul tepat di posisi tempat kembarannya berhenti, scroll aktif kembali
+      function finish() {
+        pre.style.display = 'none';
+        document.documentElement.classList.remove('preloading');
+      }
+
+      setTimeout(() => {
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startSplit, { once: true });
+        else startSplit();
+      }, reduceMotion ? 700 : PRELOADER_MS);
+    })();
+  </script>
+
+  <!-- ====================================================================
+       1. NAVBAR (Sticky) — urutan menu mengikuti urutan halaman
+       UBAH LOGO / MENU NAVBAR DI SINI
+       (jika menu diubah, ubah juga menu "kembaran" di PRELOADER di atas)
+       ==================================================================== -->
+  <header class="sticky top-0 z-50 border-b backdrop-blur-md" style="border-color: var(--line); background: var(--nav-bg)">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+      <!-- Logo: teks final "< ihsan />". Di-hover akan glitch huruf Jepang (lihat script di bawah) -->
+      <a href="#home" id="logo" aria-label="ihsan" class="mono mint text-base font-bold tracking-wide">&lt; ihsan /&gt;</a>
+
+      <!-- Menu desktop -->
+      <ul class="hidden items-center gap-8 md:flex">
+        <li><a href="#home" class="nav-link" data-nav="home">Home</a></li>
+        <li><a href="#about" class="nav-link" data-nav="about">Tentang Saya</a></li>
+        <li><a href="#projects" class="nav-link" data-nav="projects">Projects</a></li>
+        <li><a href="#contact" class="nav-link" data-nav="contact">Let's Link</a></li>
+      </ul>
+
+      <!-- Hamburger (mobile) -->
+      <button id="menu-btn" type="button" aria-label="Buka menu" aria-expanded="false"
+        class="mono mint border px-3 py-2 text-sm md:hidden" style="border-color: var(--mint)">
+        <span id="menu-label">MENU</span>
+      </button>
+    </nav>
+
+    <div id="mobile-menu" class="hidden border-t md:hidden" style="border-color: var(--line); background: var(--bg)">
+      <ul class="flex flex-col px-5 py-2">
+        <li><a href="#home" class="mobile-link nav-link block py-3">Home</a></li>
+        <li><a href="#about" class="mobile-link nav-link block py-3">Tentang Saya</a></li>
+        <li><a href="#projects" class="mobile-link nav-link block py-3">Projects</a></li>
+        <li><a href="#contact" class="mobile-link nav-link block py-3">Let's Link</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ====================================================================
+       DOCK (tab vertikal di kanan). Klik "DOCK" untuk membuka (slide-in dari kanan).
+       Isi: tombol Light/Dark, WhatsApp, Instagram, GitHub.
+       UBAH LINK INSTAGRAM & GITHUB DI SINI (WhatsApp diatur lewat script di bawah)
+       ==================================================================== -->
+  <aside id="dock" class="dock" aria-label="Dock">
+    <button id="dock-tab" class="dock-tab" type="button" aria-expanded="false" aria-controls="dock-panel" data-glitch-hover><span data-glitch-label>DOCK</span></button>
+    <div class="dock-panel-wrap">
+      <div id="dock-panel" class="dock-panel">
+        <button id="dock-close" class="dock-btn dock-close" type="button" aria-label="Tutup dock">&times;</button>
+        <button id="theme-toggle" class="dock-btn" type="button" aria-label="Ganti tema terang / gelap" title="Ganti tema terang / gelap">
+          <i class="fa-solid fa-sun icon-sun"></i><i class="fa-solid fa-moon icon-moon"></i>
+        </button>
+        <a data-wa href="#" target="_blank" rel="noopener noreferrer" class="dock-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://instagram.com/ihsanrijadin" target="_blank" rel="noopener noreferrer" class="dock-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://github.com/Blue-Sight01" target="_blank" rel="noopener noreferrer" class="dock-btn" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <!-- ====================================================================
+         2. HERO SECTION
+         UBAH FOTO DAN HERO DI SINI
+         ==================================================================== -->
+    <section id="home" data-spy="home" class="relative">
+      <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-20 pt-14 sm:pt-20 lg:grid-cols-[1fr_340px] lg:pb-28">
+
+        <!-- Teks hero -->
+        <div>
+          <!-- Dua baris di atas nama: bisa glitch (saat muncul & saat di-hover) -->
+          <div data-aos="fade-up" class="mono flex flex-wrap items-center gap-x-6 gap-y-2 text-xs sm:text-sm">
+            <span class="flex items-center gap-2" style="color: var(--amber)">
+              <span class="status-dot"></span> <span data-glitch>STATUS: AVAILABLE_FOR_COLLAB</span>
+            </span>
+            <span class="muted caret" data-glitch data-glitch-delay="700">Powered by coffee &amp; curiosity</span>
+          </div>
+
+          <h1 data-aos="fade-up" data-aos-delay="100" class="display mt-6 font-bold leading-[0.95]"
+              style="font-size: clamp(2.75rem, 7.2vw, 6.25rem); word-break: break-word;">
+            Muhammad Ihsan Rijadin<span class="mint">.</span>
+          </h1>
+          <p data-aos="fade-up" data-aos-delay="200" class="display mt-5 font-medium leading-tight"
+             style="font-size: clamp(1.5rem, 3.8vw, 3rem);">
+            Computer Engineering Student
+          </p>
+          <p data-aos="fade-up" data-aos-delay="300" class="mono mint mt-3 font-bold leading-tight"
+             style="font-size: clamp(1.1rem, 2.6vw, 2rem);">
+            Software &amp; Hardware Enthusiast
+          </p>
+
+          <p data-aos="fade-up" data-aos-delay="350" class="muted mt-8 max-w-xl text-base leading-relaxed sm:text-lg">
+            Mahasiswa D4 Teknik Komputer di PENS. Membangun ekosistem teknologi mulai dari perancangan perangkat keras,
+            integrasi database, hingga pengembangan perangkat lunak.
+          </p>
+
+          <div data-aos="fade-up" data-aos-delay="400" class="mt-10 flex flex-wrap gap-4">
+            <!-- UBAH NAMA FILE CV DI SINI (letakkan CV_Ihsan.pdf sefolder dengan index.html) -->
+            <a href="CV_Ihsan.pdf" download class="btn btn-solid"><i class="fa-solid fa-download"></i> DOWNLOAD CV</a>
+            <a href="#projects" class="btn btn-outline">VIEW PROJECTS <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Foto profil (WAJIB full color, tanpa grayscale) -->
+        <div data-aos="fade-left" data-aos-delay="200" class="mx-auto w-full max-w-[300px] lg:max-w-none">
+          <div class="photo-frame relative aspect-[4/5] w-full overflow-hidden">
+            <div class="absolute inset-0 grid place-items-center" style="background: linear-gradient(135deg, var(--panel), var(--bg))">
+              <span class="display mint text-7xl font-bold">MI</span>
+            </div>
+            <!-- UBAH FOTO PROFIL DI SINI: letakkan profile.jpg sefolder dengan index.html -->
+            <img src="Profil.jpg" alt="Foto profil Muhammad Ihsan Rijadin" class="absolute inset-0 h-full w-full object-cover"
+                 onerror="this.style.display='none'" />
+          </div>
+          <p class="mono muted mt-5 text-xs">IMG_001 // PROFILE</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         3. ABOUT SECTION
+         UBAH ABOUT ME DI SINI
+         ==================================================================== -->
+    <section id="about" data-spy="about" class="border-t" style="border-color: var(--line)">
+      <div class="section-head"><div class="section-head-inner">
+        <h2 class="section-title display" data-glitch-hover>Tentang Saya</h2>
+      </div></div>
+
+      <div class="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+        <div class="grid gap-10 lg:grid-cols-5">
+          <div data-aos="fade-up" class="muted space-y-6 text-lg leading-relaxed lg:col-span-3">
+            <p>
+              Saya memiliki ketertarikan kuat pada <span class="mint font-bold">Software Development</span>,
+              <span class="mint font-bold">Database Management</span>, dan
+              <span class="mint font-bold">Hardware Engineering</span>. Bagi saya, sistem yang baik lahir dari pemahaman
+              menyeluruh, mulai dari rangkaian di level perangkat keras sampai logika aplikasi dan struktur data di atasnya.
+            </p>
+            <p>
+              Saya berpengalaman <span style="color: var(--ink)" class="font-bold">memimpin tim teknis</span> dan melakukan
+              <span style="color: var(--ink)" class="font-bold">troubleshooting langsung di lapangan</span>, memastikan setiap
+              bagian sistem terintegrasi dengan baik hingga proyek selesai.
+            </p>
+          </div>
+
+          <div class="grid gap-4 lg:col-span-2">
+            <!-- AOS dipasang di pembungkus (bukan di .card) supaya efek hover card tetap berfungsi -->
+            <div data-aos="fade-up" data-aos-delay="100">
+              <div class="card flex items-center gap-4 p-5">
+                <i class="fa-solid fa-code mint text-2xl"></i>
+                <div><p class="mono text-sm font-bold uppercase">Software</p><p class="muted text-sm">Pengembangan aplikasi</p></div>
+              </div>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="200">
+              <div class="card flex items-center gap-4 p-5">
+                <i class="fa-solid fa-database mint text-2xl"></i>
+                <div><p class="mono text-sm font-bold uppercase">Database</p><p class="muted text-sm">Desain &amp; manajemen data</p></div>
+              </div>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="300">
+              <div class="card flex items-center gap-4 p-5">
+                <i class="fa-solid fa-microchip mint text-2xl"></i>
+                <div><p class="mono text-sm font-bold uppercase">Hardware</p><p class="muted text-sm">Rangkaian &amp; prototipe</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         4. EXPERIENCE / TIMELINE VERTIKAL
+         TAMBAH PENGALAMAN DI SINI
+         ==================================================================== -->
+    <section id="experience" data-spy="about" class="border-t" style="border-color: var(--line)">
+      <div class="section-head"><div class="section-head-inner">
+        <h2 class="section-title display" data-glitch-hover>Pengalaman</h2>
+      </div></div>
+
+      <div class="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+        <ol class="tl-line max-w-3xl space-y-10">
+
+          <!-- ITEM TIMELINE 1 (salin blok <li> ini untuk menambah pengalaman baru) -->
+          <li data-aos="fade-up" class="relative ml-6 sm:ml-10">
+            <span class="tl-node" style="left: calc(-1.5rem - 7px)"></span>
+            <div class="card p-6">
+              <div class="mono flex flex-wrap items-center justify-between gap-2 text-xs">
+                <span class="badge">2026</span>
+                <span class="muted uppercase">Organisasi</span>
+              </div>
+              <h3 class="display mt-4 text-2xl font-bold">Anggota Komisi Data Center LKMM TPD PENS 2026</h3>
+              <p class="muted mt-2 leading-relaxed">
+                Bertanggung jawab mengelola dan merekap data peserta secara terpusat. Membuat sistem otomatisasi pengolahan data menggunakan formula Google Sheets untuk mempercepat alur kerja panitia.
+              </p>
+            </div>
+          </li>
+
+          <!-- ITEM TIMELINE 2 -->
+          <li data-aos="fade-up" data-aos-delay="100" class="relative ml-6 sm:ml-10">
+            <span class="tl-node" style="left: calc(-1.5rem - 7px)"></span>
+            <div class="card p-6">
+              <div class="mono flex flex-wrap items-center justify-between gap-2 text-xs">
+                <span class="badge">2026</span>
+                <span class="muted uppercase">Unit Kegiatan Mahasiswa</span>
+              </div>
+              <h3 class="display mt-4 text-2xl font-bold">Project Manager &amp; Technical Lead UKM RoboHolic</h3>
+              <p class="muted mt-2 leading-relaxed">
+                Memimpin tim dalam perakitan komponen fisik hardware robot agar sesuai dengan target spesifikasi. Selain itu, saya juga aktif mendampingi anggota baru untuk belajar merancang prototipe.
+              </p>
+            </div>
+          </li>
+
+          <!-- ITEM TIMELINE 3 -->
+          <li data-aos="fade-up" data-aos-delay="200" class="relative ml-6 sm:ml-10">
+            <span class="tl-node" style="left: calc(-1.5rem - 7px)"></span>
+            <div class="card p-6">
+              <div class="mono flex flex-wrap items-center justify-between gap-2 text-xs">
+                <span class="badge">2023 - 2024</span>
+                <span class="muted uppercase">Organisasi Siswa</span>
+              </div>
+              <h3 class="display mt-4 text-2xl font-bold">Ketua Pelaksana &amp; Koord. Sekbid 4 OSIS</h3>
+              <p class="muted mt-2 leading-relaxed">
+                Bertugas sebagai ketua pelaksana acara Class Meeting SMAN 1 Pangkah, bertanggung jawab penuh mulai dari tahap perencanaan konsep hingga eksekusi kegiatan di lapangan.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         5. SKILLS SECTION — INFINITE MARQUEE 2 BARIS
+         TAMBAH SKILL DI SINI: edit array ROW_1 / ROW_2 di bagian JavaScript paling bawah.
+         UBAH KECEPATAN: edit SPEED_1 / SPEED_2 di script (angka kecil = lebih pelan).
+         ==================================================================== -->
+    <section id="skills" data-spy="about" class="border-t" style="border-color: var(--line)">
+      <div class="section-head"><div class="section-head-inner">
+        <h2 class="section-title display" data-glitch-hover>Tech Stack</h2>
+      </div></div>
+
+      <div class="space-y-10 py-14 sm:py-20">
+        <!-- Baris 1: bergerak ke kiri -->
+        <div class="marquee" aria-label="Skills baris 1"><div class="marquee-track" id="track-1"></div></div>
+        <!-- Baris 2: bergerak ke kanan -->
+        <div class="marquee" aria-label="Skills baris 2"><div class="marquee-track reverse" id="track-2"></div></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         6. PROJECTS SECTION (dengan filter kategori)
+         TAMBAH PROJECT DI SINI
+         Cara menambah: salin satu blok <article class="project-card ..."> lalu ubah
+         data-category menjadi: software | hardware | database
+         ==================================================================== -->
+    <section id="projects" data-spy="projects" class="border-t" style="border-color: var(--line)">
+      <div class="section-head"><div class="section-head-inner">
+        <h2 class="section-title display" data-glitch-hover>Projects</h2>
+      </div></div>
+
+      <div class="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+        <!-- Tombol filter -->
+        <div id="filter-bar" data-aos="fade-up" class="flex flex-wrap gap-3">
+          <button type="button" class="filter-btn active" data-filter="all">All</button>
+          <button type="button" class="filter-btn" data-filter="software">Software</button>
+          <button type="button" class="filter-btn" data-filter="hardware">Hardware</button>
+          <button type="button" class="filter-btn" data-filter="database">Database</button>
+        </div>
+
+        <div id="project-grid" class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
+          <!-- ============ CARD 1: SOFTWARE ============ -->
+          <!-- Pembungkus .project-card membawa data-category (filter) & AOS; .card di dalamnya tetap punya efek hover -->
+          <div class="project-card flex" data-category="software" data-aos="fade-up">
+          <article class="card flex w-full flex-col">
+            <!-- UBAH THUMBNAIL: ganti blok ini dengan <img src="thumbnail-kasir.jpg" class="h-44 w-full object-cover" alt="..."> -->
+            <div class="grid h-44 place-items-center border-b" style="border-color: var(--line); background: linear-gradient(135deg, var(--panel), var(--bg))">
+              <i class="fa-solid fa-cash-register text-6xl" style="color: #38bdf8"></i>
+            </div>
+            <div class="flex flex-1 flex-col p-6">
+              <div class="flex items-center justify-between gap-2">
+                <span class="badge">Software</span>
+                <span class="mono muted text-xs uppercase">Solo Developer</span>
+              </div>
+              <h3 class="display mt-4 text-2xl font-bold leading-tight">Aplikasi Riwayat Transaksi MFC</h3>
+              <p class="muted mt-3 flex-1 text-sm leading-relaxed">
+                Aplikasi riwayat transaksi kasir untuk usaha laundry dengan dukungan transaksi multi-item dan filter laporan bulanan,
+                terhubung ke database PostgreSQL.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2"><span class="tag">C++</span><span class="tag">MFC</span><span class="tag">PostgreSQL</span></div>
+              <!-- UBAH LINK GITHUB PROJECT DI SINI -->
+              <a href="https://github.com/Blue-Sight01/MFC-app-riwayat-transaksi" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-6 w-full">
+                <i class="fa-brands fa-github"></i> VIEW_SOURCE_CODE
+              </a>
+            </div>
+          </article>
+          </div>
+
+          <!-- ============ CARD 2: DATABASE ============ -->
+          <div class="project-card flex" data-category="database" data-aos="fade-up" data-aos-delay="100">
+          <article class="card flex w-full flex-col">
+            <!-- UBAH THUMBNAIL: ganti blok ini dengan <img src="thumbnail-coworking.jpg" ...> -->
+            <div class="grid h-44 place-items-center border-b" style="border-color: var(--line); background: linear-gradient(135deg, var(--panel), var(--bg))">
+              <i class="devicon-postgresql-plain colored text-7xl"></i>
+            </div>
+            <div class="flex flex-1 flex-col p-6">
+              <div class="flex items-center justify-between gap-2">
+                <span class="badge">Database</span>
+                <span class="mono muted text-xs uppercase">Database Architect</span>
+              </div>
+              <h3 class="display mt-4 text-2xl font-bold leading-tight">Coworking Space DB</h3>
+              <p class="muted mt-3 flex-1 text-sm leading-relaxed">
+                Arsitektur basis data coworking space dengan 11 tabel, Triggers untuk otomatisasi proses, dan Role-Based Views
+                untuk pembatasan akses sesuai peran.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2"><span class="tag">PostgreSQL</span><span class="tag">Triggers</span><span class="tag">Role-Based Views</span></div>
+              <!-- UBAH LINK GITHUB PROJECT DI SINI -->
+              <a href="https://github.com/Blue-Sight01/Coworking-Space-Database-Management-System." target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-6 w-full">
+                <i class="fa-brands fa-github"></i> VIEW_SOURCE_CODE
+              </a>
+            </div>
+          </article>
+          </div>
+
+          <!-- ============ CARD 3: HARDWARE ============ -->
+          <div class="project-card flex md:col-span-2 xl:col-span-1" data-category="hardware" data-aos="fade-up" data-aos-delay="200">
+          <article class="card flex w-full flex-col">
+            <!-- UBAH FOTO PROJECT HARDWARE: 3 foto kecil. Letakkan file sefolder dengan index.html. -->
+            <div class="grid grid-cols-3 gap-px border-b" style="border-color: var(--line); background: var(--line)">
+              <div class="relative aspect-square overflow-hidden" style="background: var(--panel)">
+                <span class="mono muted absolute inset-0 grid place-items-center text-center text-[10px] uppercase">Breadboard</span>
+                <img src="voltmeter-1-breadboard.jpg" alt="Power Supply Multi-Voltage" class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'" />
+              </div>
+              <div class="relative aspect-square overflow-hidden" style="background: var(--panel)">
+                <span class="mono muted absolute inset-0 grid place-items-center text-center text-[10px] uppercase">PCB</span>
+                <img src="voltmeter-2-pcb.jpg" alt="Hasil PCB etching voltmeter" class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'" />
+              </div>
+              <div class="relative aspect-square overflow-hidden" style="background: var(--panel)">
+                <span class="mono muted absolute inset-0 grid place-items-center text-center text-[10px] uppercase">Box</span>
+                <img src="voltmeter-3-box.jpg" alt="Voltmeter dalam casing box" class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'" />
+              </div>
+            </div>
+            <div class="flex flex-1 flex-col p-6">
+              <div class="flex items-center justify-between gap-2">
+                <span class="badge">Hardware</span>
+                <span class="mono muted text-xs uppercase">Hardware Engineer</span>
+              </div>
+              <h3 class="display mt-4 text-2xl font-bold leading-tight">Digital Voltmeter &amp; Multi-Voltage DC Power</h3>
+              <p class="muted mt-3 flex-1 text-sm leading-relaxed">
+                Voltmeter dan power supply DC multi-tegangan (3V, 5V, 9V). Dimulai dari simulasi breadboard,
+                dilanjutkan PCB etching dan soldering hingga dirakit dalam box.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2"><span class="tag">Breadboard</span><span class="tag">PCB Etching</span><span class="tag">Soldering</span></div>
+              <!-- UBAH LINK PROJECT HARDWARE DI SINI -->
+              <a href="https://github.com/Blue-Sight01/digital-voltmeter" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-6 w-full">
+                <i class="fa-brands fa-github"></i> VIEW_DETAILS
+              </a>
+            </div>
+          </article>
+          </div>
+        </div>
+
+        <p id="empty-state" class="mono muted mt-10 hidden text-center text-sm">// BELUM_ADA_PROYEK_DI_KATEGORI_INI</p>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         7. TECH JOURNAL / BLOG  (judul section: "Notes")
+         TAMBAH JURNAL/BLOG DI SINI (salin satu blok <article> lalu ubah isinya)
+         ==================================================================== -->
+    <section id="journal" data-spy="projects" class="border-t" style="border-color: var(--line)">
+      <div class="section-head"><div class="section-head-inner">
+        <h2 class="section-title display" data-glitch-hover>Notes</h2>
+      </div></div>
+
+      <div class="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+        <!-- NOTES: scroll horizontal (flex + overflow-x-auto + snap-x snap-mandatory), scrollbar disembunyikan lewat CSS .notes-scroller.
+             TAMBAH ARTIKEL: salin satu blok <div class="note-item"> lalu ubah isinya. -->
+        <div id="notes-scroller" class="notes-scroller flex overflow-x-auto snap-x snap-mandatory">
+
+          <!-- Artikel 1 -->
+          <div class="note-item" data-aos="fade-up">
+            <article class="card flex w-full flex-col">
+              <div class="relative h-48 overflow-hidden border-b" style="border-color: var(--line); background: linear-gradient(135deg, var(--panel), var(--bg))">
+                <i class="fa-solid fa-robot mint absolute inset-0 grid place-items-center text-center text-5xl" style="line-height: 12rem"></i>
+                <img src="https://picsum.photos/seed/ai-agent/800/450" alt="Ilustrasi Personal AI Agent" loading="lazy"
+                     class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'" />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <p class="mono muted text-xs uppercase">12 Oktober 2026 // AI</p>
+                <h3 class="display mt-3 text-2xl font-bold leading-tight">Membangun Personal AI Agent</h3>
+                <p class="muted mt-3 flex-1 text-sm leading-relaxed">Catatan eksperimen saya membuat agen AI pribadi: mulai dari menentukan tugasnya, menyambungkan tools, sampai memastikan hasilnya tetap bisa diandalkan.</p>
+                <a href="#" class="btn btn-outline mt-6 w-fit">READ_MORE <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Artikel 2 -->
+          <div class="note-item" data-aos="fade-up" data-aos-delay="100">
+            <article class="card flex w-full flex-col">
+              <div class="relative h-48 overflow-hidden border-b" style="border-color: var(--line); background: linear-gradient(135deg, var(--panel), var(--bg))">
+                <i class="fa-solid fa-database mint absolute inset-0 grid place-items-center text-center text-5xl" style="line-height: 12rem"></i>
+                <img src="https://picsum.photos/seed/relational-db/800/450" alt="Ilustrasi database relasional" loading="lazy"
+                     class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'" />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <p class="mono muted text-xs uppercase">28 September 2026 // DATABASE</p>
+                <h3 class="display mt-3 text-2xl font-bold leading-tight">Efisiensi Database Relasional</h3>
+                <p class="muted mt-3 flex-1 text-sm leading-relaxed">Rangkuman cara menjaga database relasional tetap ngebut: normalisasi, pemakaian index, dan kapan triggers serta views layak dipakai.</p>
+                <a href="#" class="btn btn-outline mt-6 w-fit">READ_MORE <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Artikel 3 (dummy) -->
+          <div class="note-item" data-aos="fade-up" data-aos-delay="200">
+            <article class="card flex w-full flex-col">
+              <div class="relative h-48 overflow-hidden border-b" style="border-color: var(--line); background: linear-gradient(135deg, var(--panel), var(--bg))">
+                <i class="fa-solid fa-microchip mint absolute inset-0 grid place-items-center text-center text-5xl" style="line-height: 12rem"></i>
+                <img src="https://picsum.photos/seed/esp32-iot/800/450" alt="Ilustrasi proyek IoT dengan ESP32" loading="lazy"
+                     class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'" />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <p class="mono muted text-xs uppercase">14 September 2026 // HARDWARE</p>
+                <h3 class="display mt-3 text-2xl font-bold leading-tight">Mulai IoT dengan ESP32</h3>
+                <p class="muted mt-3 flex-1 text-sm leading-relaxed">Langkah awal membaca sensor, kirim data lewat WiFi, dan menjaga konsumsi daya tetap irit di proyek IoT berbasis ESP32.</p>
+                <a href="#" class="btn btn-outline mt-6 w-fit">READ_MORE <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Artikel 4 (dummy) -->
+          <div class="note-item" data-aos="fade-up" data-aos-delay="300">
+            <article class="card flex w-full flex-col">
+              <div class="relative h-48 overflow-hidden border-b" style="border-color: var(--line); background: linear-gradient(135deg, var(--panel), var(--bg))">
+                <i class="fa-solid fa-code mint absolute inset-0 grid place-items-center text-center text-5xl" style="line-height: 12rem"></i>
+                <img src="https://picsum.photos/seed/cpp-mfc/800/450" alt="Ilustrasi aplikasi desktop C++ MFC" loading="lazy"
+                     class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none'" />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <p class="mono muted text-xs uppercase">30 Agustus 2026 // SOFTWARE</p>
+                <h3 class="display mt-3 text-2xl font-bold leading-tight">Aplikasi Desktop dengan C++ &amp; MFC</h3>
+                <p class="muted mt-3 flex-1 text-sm leading-relaxed">Catatan membuat aplikasi desktop Windows: struktur dokumen/tampilan MFC, penanganan event, sampai terhubung ke database.</p>
+                <a href="#" class="btn btn-outline mt-6 w-fit">READ_MORE <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </article>
+          </div>
+
+        </div>
+
+        <!-- Navigasi Notes: tombol kiri, tombol "VIEW_ALL_NOTES", tombol kanan (sebaris, di tengah bawah scroller).
+             Panah memakai karakter &lt; &gt; (bukan ikon). ID tombol tetap notes-prev / notes-next supaya JS yang ada tetap jalan.
+             UBAH LINK "VIEW_ALL_NOTES" DI SINI (href="#" -> halaman daftar semua catatan). -->
+        <div class="mt-10 flex items-center justify-center gap-4">
+          <button id="notes-prev" type="button" class="btn btn-outline" style="padding: 0.4rem 1.2rem; font-size: 1.2rem;" aria-label="Sebelumnya">
+            &lt;
+          </button>
+
+          <a href="#" class="btn btn-outline" style="border-style: dashed; padding: 0.55rem 1.5rem; font-size: 0.85rem;" aria-label="Lihat Semua Notes">
+            VIEW_ALL_NOTES
+          </a>
+
+          <button id="notes-next" type="button" class="btn btn-outline" style="padding: 0.4rem 1.2rem; font-size: 1.2rem;" aria-label="Berikutnya">
+            &gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         8. CONTACT / LET'S LINK (sederhana)
+         UBAH EMAIL, INSTAGRAM, LINKEDIN, GITHUB DI SINI
+         Nomor WhatsApp diatur di script paling bawah (const WA_NUMBER).
+         ==================================================================== -->
+    <section id="contact" data-spy="contact" class="border-t" style="border-color: var(--line)">
+      <div class="section-head"><div class="section-head-inner">
+        <h2 class="section-title display" data-glitch-hover>Let's Link</h2>
+      </div></div>
+
+      <div class="mx-auto max-w-6xl px-5 pt-14 sm:pt-20">
+
+        <!-- Kotak pesan gaya terminal: tekan ENTER untuk mengirim lewat WhatsApp -->
+        <form id="term-form" autocomplete="off" data-aos="fade-up">
+          <div class="term-head">
+            <label for="term-input" class="mint">&gt; SEND_ME_MESSAGE</label>
+            <span id="term-status" style="color: var(--amber)">[READY]</span>
+          </div>
+          <div class="term-box">
+            <span class="mono" style="color: var(--amber)">$</span>
+            <input id="term-input" type="text" placeholder="type_message_here..." />
+            <button type="submit">[ENTER]</button>
+          </div>
+        </form>
+
+        <!-- Daftar tautan sederhana. WhatsApp dan Instagram ada paling atas. -->
+        <div class="mt-14 grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3">
+          <div data-aos="fade-up">
+            <h3 class="col-title">Contact</h3>
+            <div class="link-list">
+              <a data-wa href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <!-- UBAH EMAIL DI SINI -->
+              <a href="mailto:ihsanrijadin07@gmail.com?subject=Halo%20Ihsan">Email</a>
+              <!-- UBAH USERNAME LINKEDIN DI SINI -->
+              <a href="https://www.linkedin.com/in/muhammad-ihsan-680817400" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="100">
+            <h3 class="col-title">Social Media</h3>
+            <div class="link-list">
+              <!-- UBAH USERNAME INSTAGRAM DI SINI -->
+              <a href="https://instagram.com/ihsanrijadin" target="_blank" rel="noopener noreferrer">Instagram</a>
+              <!-- UBAH USERNAME GITHUB DI SINI -->
+              <a href="https://github.com/Blue-Sight01" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="200">
+            <h3 class="col-title">Tech Stack</h3>
+            <div class="link-list">
+              <span>C / C++</span>
+              <span>Python</span>
+              <span>PostgreSQL</span>
+              <span>ESP32</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Banner glitch (teks acak lalu "ter-decode" menjadi nama) -->
+      <div id="glitch-banner" class="glitch-banner" style="margin-top: 5rem">
+        <span id="glitch-text" aria-label="Muhammad Ihsan">MUHAMMAD IHSAN</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t" style="border-color: var(--line)">
+    <div class="mono mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-8 text-xs sm:flex-row">
+      <p class="muted">&copy; <span id="year">2026</span> MUHAMMAD IHSAN RIJADIN. ALL_RIGHTS_RESERVED.</p>
+      <p class="mint">BUILT_WITH // HTML + TAILWIND + JS</p>
+    </div>
+  </footer>
+
+  <!-- ====================================================================
+       JAVASCRIPT: AOS, tema, dock, glitch, hamburger, marquee, filter proyek, scrollspy, terminal
+       ==================================================================== -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // ---- Helper: jalankan fungsi setelah preloader mulai membelah (split) ----
+    function whenPreloaderDone(fn) {
+      if (window.__preloaderDone) fn();
+      else document.addEventListener('preloader:done', fn, { once: true });
+    }
+
+    // ---- AOS (dimulai saat preloader membelah, supaya animasi hero tampil bersamaan dengan overlay memudar) ----
+    whenPreloaderDone(() => {
+      if (window.AOS) AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 60 });
+      else document.querySelectorAll('[data-aos]').forEach((el) => el.removeAttribute('data-aos'));
+    });
+
+    // ---- Tahun footer ----
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // =====================================================================
+    // UBAH NOMOR WHATSAPP DI SINI (format internasional tanpa +, contoh: 6200000)
+    // =====================================================================
+    const WA_NUMBER = '6285113505249';
+    const waLink = (text) => 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text);
+    document.querySelectorAll('[data-wa]').forEach((a) => {
+      a.href = waLink('Halo Ihsan, saya melihat portofoliomu dan ingin berkolaborasi.');
+    });
+
+    // ---- Tinggi navbar -> dipakai agar judul section menempel tepat di bawah navbar ----
+    const navEl = document.querySelector('header nav');
+    function setNavH() {
+      document.documentElement.style.setProperty('--nav-h', (navEl.offsetHeight + 1) + 'px');
+    }
+    setNavH();
+    window.addEventListener('resize', setNavH);
+    window.addEventListener('load', setNavH);
+
+    // ---- Dynamic Sticky Section Titles ----
+    // Judul section (.section-head) menempel di bawah navbar lewat CSS (position: sticky).
+    // JS di bawah hanya mendeteksi KAPAN judul sedang menempel, lalu menambah/menghapus class "is-stuck"
+    // (kotak mint solid) tanpa mengubah layout. Dipanggil saat scroll/resize/load (dibatasi requestAnimationFrame).
+    const sectionHeads = Array.from(document.querySelectorAll('.section-head'));
+    function updateStuck() {
+      sectionHeads.forEach((head) => {
+        const stickyTop = parseFloat(getComputedStyle(head).top) || 0; // jarak menempel (px)
+        const r = head.getBoundingClientRect();
+        const sec = head.closest('section').getBoundingClientRect();
+        // menempel = posisinya sudah mencapai batas atas sticky & section-nya masih terlihat di layar
+        const stuck = r.top <= stickyTop + 1 && sec.bottom > stickyTop + 1;
+        head.classList.toggle('is-stuck', stuck);
+      });
+    }
+    let stuckTicking = false;
+    function requestStuckUpdate() {
+      if (stuckTicking) return;
+      stuckTicking = true;
+      requestAnimationFrame(() => { stuckTicking = false; updateStuck(); });
+    }
+    window.addEventListener('scroll', requestStuckUpdate, { passive: true });
+    window.addEventListener('resize', requestStuckUpdate);
+    window.addEventListener('load', requestStuckUpdate);
+    updateStuck();
+
+    // ---- AOS: hitung ulang posisi setelah semua gambar/font selesai dimuat ----
+    window.addEventListener('load', () => { if (window.AOS && AOS.refresh) AOS.refresh(); });
+
+    // ---- Notes: tombol panah untuk menggeser scroller horizontal ----
+    (function () {
+      const scroller = document.getElementById('notes-scroller');
+      if (!scroller) return;
+      function step() {
+        const item = scroller.querySelector('.note-item');
+        const gap = parseFloat(getComputedStyle(scroller).columnGap) || 0;
+        return (item ? item.getBoundingClientRect().width : scroller.clientWidth * 0.8) + gap;
+      }
+      document.getElementById('notes-prev').addEventListener('click', () => scroller.scrollBy({ left: -step(), behavior: 'smooth' }));
+      document.getElementById('notes-next').addEventListener('click', () => scroller.scrollBy({ left: step(), behavior: 'smooth' }));
+    })();
+
+    // ---- Tema Light / Dark (tombol ada di DOCK) ----
+    const root = document.documentElement;
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const isLight = root.classList.toggle('light');
+      try { localStorage.setItem('theme', isLight ? 'light' : 'dark'); } catch (e) {}
+    });
+
+    // ---- Glitch HANYA saat hover: judul section & tab DOCK (atribut data-glitch-hover) ----
+    // Default diam. Saat kursor di atas elemen: huruf Jepang berganti terus. Kursor menjauh: teks kembali normal.
+    // Teks yang di-glitch = elemen anak [data-glitch-label] bila ada, jika tidak elemen itu sendiri.
+    document.querySelectorAll('[data-glitch-hover]').forEach((trigger) => {
+      const el = trigger.querySelector('[data-glitch-label]') || trigger;
+      const text = el.textContent.trim();
+      const on = () => startGlitch(el, text);
+      const off = () => stopGlitch(el, text);
+      trigger.addEventListener('pointerenter', on);
+      trigger.addEventListener('pointerleave', off);
+      trigger.addEventListener('focus', () => { if (trigger.matches(':focus-visible')) on(); });
+      trigger.addEventListener('blur', off);
+    });
+
+    // ---- DOCK buka / tutup (dengan transisi CSS: tab keluar, panel slide-in dari kanan) ----
+    const dock = document.getElementById('dock');
+    const dockTab = document.getElementById('dock-tab');
+    const dockLabel = dockTab.querySelector('[data-glitch-label]');
+    function setDock(open) {
+      dock.classList.toggle('open', open);
+      dockTab.setAttribute('aria-expanded', String(open));
+      stopGlitch(dockLabel, 'DOCK');   // pastikan glitch berhenti saat tab bergeser
+    }
+    dockTab.addEventListener('click', () => setDock(true));
+    document.getElementById('dock-close').addEventListener('click', () => setDock(false));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setDock(false); });
+    document.addEventListener('click', (e) => {
+      if (dock.classList.contains('open') && !dock.contains(e.target)) setDock(false);
+    });
+
+    // ---- Efek glitch huruf Jepang: fungsi scramble(), startGlitch(), stopGlitch() & karakter acaknya (CHARS)
+    //      didefinisikan di script preloader (paling atas di <body>) ----
+
+    // Logo navbar: di-hover akan glitch huruf Jepang lalu kembali ke "< ihsan />"
+    // (animasi awalnya sudah dimainkan oleh preloader)
+    const logo = document.getElementById('logo');
+    logo.addEventListener('mouseenter', () => scramble(logo, '< ihsan />'));
+
+    // Banner glitch di contact: ter-decode saat terlihat; di-hover akan glitch lagi
+    const glitchText = document.getElementById('glitch-text');
+    const BANNER_TEXT = 'MUHAMMAD IHSAN';
+    document.getElementById('glitch-banner').addEventListener('mouseenter', () => scramble(glitchText, BANNER_TEXT));
+    new IntersectionObserver((entries, obs) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) { scramble(glitchText, BANNER_TEXT); obs.disconnect(); }
+      });
+    }, { threshold: 0.6 }).observe(document.getElementById('glitch-banner'));
+
+    // ---- Elemen dengan atribut data-glitch (dua baris di atas nama pada hero) ----
+    // Glitch huruf Jepang muncul saat elemen pertama kali terlihat di layar dan saat di-hover.
+    // TAMBAH data-glitch PADA ELEMEN LAIN UNTUK MENAMBAH EFEKNYA.
+    // Opsional: data-glitch-delay="700" untuk menunda efek (dalam milidetik).
+    const glitchObserver = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          const el = en.target;
+          setTimeout(() => scramble(el, el.dataset.glitchText), Number(el.dataset.glitchDelay || 0));
+          glitchObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('[data-glitch]').forEach((el) => {
+      el.dataset.glitchText = el.textContent;
+      el.addEventListener('mouseenter', () => scramble(el, el.dataset.glitchText));
+    });
+    // Mulai mengamati setelah preloader membelah (agar glitch tidak terjadi di balik preloader)
+    whenPreloaderDone(() => {
+      document.querySelectorAll('[data-glitch]').forEach((el) => glitchObserver.observe(el));
+    });
+
+    // ---- Hamburger ----
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuLabel = document.getElementById('menu-label');
+    function setMenu(open) {
+      mobileMenu.classList.toggle('hidden', !open);
+      menuLabel.textContent = open ? 'CLOSE' : 'MENU';
+      menuBtn.setAttribute('aria-expanded', String(open));
+    }
+    menuBtn.addEventListener('click', () => setMenu(mobileMenu.classList.contains('hidden')));
+    document.querySelectorAll('.mobile-link').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+
+    // ---- MARQUEE SKILLS (2 baris) ----
+    // TAMBAH SKILL DI SINI. Format: { icon: 'class ikon', label: 'NAMA', color: '#warna (khusus ikon FontAwesome)' }
+ // ---- MARQUEE SKILLS (2 baris) ----
+    const ROW_1 = [
+      { icon: 'devicon-c-plain colored',          label: 'C' },
+      { icon: 'devicon-cplusplus-plain colored',  label: 'C++' },
+      { icon: 'devicon-python-plain colored',     label: 'Python' },
+      { icon: 'devicon-postgresql-plain colored', label: 'PostgreSQL' },
+      { icon: 'fa-solid fa-microchip',            label: 'ESP32', color: '#e7352c' },
+    ];
+    
+    const ROW_2 = [
+      // Menggunakan gambar (img) asli untuk AutoCAD, bukan icon
+      { img: 'auutocad.avif',                     label: 'AutoCAD' },
+      { icon: 'fa-solid fa-diagram-project',      label: 'Xilinx ISE',  color: '#ff7a45' },
+      { icon: 'fa-regular fa-window-maximize',    label: 'MFC',         color: '#4da3ff' },
+      { icon: 'fa-solid fa-bolt',                 label: 'PCB Etching', color: '#facc15' },
+    ];
+    
+    // KECEPATAN dalam piksel per detik (makin kecil = makin pelan)
+    const SPEED_1 = 38;
+    const SPEED_2 = 32;
+
+    function buildMarquee(trackId, items, speed) {
+      const track = document.getElementById(trackId);
+      const one = items.map((s) => {
+        // Logika baru: Jika ada properti 'img', tampilkan gambar. Jika tidak, tampilkan ikon.
+        const iconHtml = s.img 
+          ? '<img src="' + s.img + '" alt="' + s.label + '" style="width: 3.5rem; height: 3.25rem; object-fit: contain;" />'
+          : '<i class="' + s.icon + '"' + (s.color ? ' style="color:' + s.color + '"' : '') + '></i>';
+          
+        return '<div class="skill-item">' + iconHtml + '<span>' + s.label + '</span></div>';
+      }).join('');
+      
+      const group = one.repeat(6); // diulang agar cukup lebar untuk layar besar
+      track.innerHTML =
+        '<div class="marquee-group">' + group + '</div>' +
+        '<div class="marquee-group" aria-hidden="true">' + group + '</div>'; // duplikat untuk loop mulus
+        
+      const applySpeed = () => {
+        const w = track.querySelector('.marquee-group').scrollWidth;
+        if (w > 0) track.style.animationDuration = (w / speed) + 's';
+      };
+      applySpeed();
+      window.addEventListener('load', applySpeed);
+      window.addEventListener('resize', applySpeed);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(applySpeed);
+    }
+    
+    buildMarquee('track-1', ROW_1, SPEED_1);
+    buildMarquee('track-2', ROW_2, SPEED_2);
+
+    // ---- Filter kategori proyek ----
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
+    const emptyState = document.getElementById('empty-state');
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        filterBtns.forEach((b) => b.classList.toggle('active', b === btn));
+
+        let visible = 0;
+        cards.forEach((card) => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.classList.toggle('hidden', !match);
+          card.classList.remove('pop-in');
+          if (match) {
+            card.classList.add('aos-animate'); // pastikan kartu yang baru muncul tidak tertahan di state AOS (opacity 0)
+            void card.offsetWidth; // restart animasi
+            card.classList.add('pop-in');
+            visible++;
+          }
+        });
+        emptyState.classList.toggle('hidden', visible !== 0);
+      });
+    });
+
+    // ---- Scrollspy: tandai menu navbar sesuai section ----
+    const navLinks = document.querySelectorAll('header ul .nav-link');
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const key = entry.target.dataset.spy;
+          navLinks.forEach((l) => l.classList.toggle('active', l.dataset.nav === key));
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('[data-spy]').forEach((s) => spyObserver.observe(s));
+
+    // ---- Kotak pesan terminal -> kirim lewat WhatsApp ----
+    const termForm = document.getElementById('term-form');
+    const termInput = document.getElementById('term-input');
+    const termStatus = document.getElementById('term-status');
+    function setStatus(text, ms) {
+      termStatus.textContent = text;
+      if (ms) setTimeout(() => { termStatus.textContent = '[READY]'; }, ms);
+    }
+    termForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const msg = termInput.value.trim();
+      if (!msg) { setStatus('[EMPTY_MESSAGE]', 1500); return; }
+      setStatus('[OPENING_WHATSAPP]', 2000);
+      window.open(waLink(msg), '_blank', 'noopener');
+      termInput.value = '';
+    });
+  </script>
+</body>
+</html>
